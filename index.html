@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailCraft AI - Professional Email Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-envelope"></i>
+                <span>EmailCraft AI</span>
+            </div>
+            <button class="dark-mode-toggle" id="darkModeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <header class="page-header">
+                <h1>Create Professional Email</h1>
+                <p>Generate compelling emails with AI assistance</p>
+            </header>
+
+            <!-- Email Templates -->
+            <section class="templates-section">
+                <div class="template-cards">
+                    <div class="template-card active" data-template="job">
+                        <div class="template-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3>Job Application</h3>
+                        <p>Create compelling cover letters and job application emails</p>
+                    </div>
+                    
+                    <div class="template-card" data-template="cold">
+                        <div class="template-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h3>Cold Email</h3>
+                        <p>Reach out to prospects and generate leads effectively</p>
+                    </div>
+                    
+                    <div class="template-card" data-template="reply">
+                        <div class="template-icon">
+                            <i class="fas fa-reply"></i>
+                        </div>
+                        <h3>Email Reply</h3>
+                        <p>Craft professional responses to incoming emails</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Email Generator -->
+            <section class="email-generator">
+                <div class="generator-container">
+                    <!-- Email Details Form -->
+                    <div class="email-details">
+                        <h2>
+                            <i class="fas fa-edit"></i>
+                            Email Details
+                        </h2>
+                        
+                        <form id="emailForm">
+                            <!-- Job Application Template -->
+                            <div class="template-form active" id="jobForm">
+                                <div class="form-group">
+                                    <label for="jobName">Your Full Name</label>
+                                    <input type="text" id="jobName" placeholder="e.g. John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobEmail">Your Email Address</label>
+                                    <input type="email" id="jobEmail" placeholder="e.g. john.smith@email.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobPhone">Your Phone Number</label>
+                                    <input type="tel" id="jobPhone" placeholder="e.g. (555) 123-4567">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobCompany">Company Name</label>
+                                    <input type="text" id="jobCompany" placeholder="e.g. Google, Microsoft, Startup Inc">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobPosition">Position Title</label>
+                                    <input type="text" id="jobPosition" placeholder="e.g. Senior Software Engineer, Marketing Manager">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobManager">Hiring Manager Name (Optional)</label>
+                                    <input type="text" id="jobManager" placeholder="e.g. John Smith, Sarah Johnson">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobExperience">Years of Experience</label>
+                                    <input type="number" id="jobExperience" placeholder="e.g. 5" min="0">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobSkills">Your Key Skills/Experience</label>
+                                    <textarea id="jobSkills" placeholder="e.g. 5 years React development, team leadership, AWS certification, project management"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobEducation">Education Background</label>
+                                    <textarea id="jobEducation" placeholder="e.g. Bachelor's in Computer Science from MIT, Master's in Business Administration"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobWhy">Why This Company?</label>
+                                    <textarea id="jobWhy" placeholder="e.g. Mission alignment, innovative products, growth opportunities, company culture"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jobAchievements">Notable Achievements (Optional)</label>
+                                    <textarea id="jobAchievements" placeholder="e.g. Increased team productivity by 30%, Led successful product launch, Won industry award"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Cold Email Template -->
+                            <div class="template-form" id="coldForm">
+                                <div class="form-group">
+                                    <label for="coldSenderName">Your Full Name</label>
+                                    <input type="text" id="coldSenderName" placeholder="e.g. John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldSenderEmail">Your Email Address</label>
+                                    <input type="email" id="coldSenderEmail" placeholder="e.g. john.smith@company.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldSenderCompany">Your Company Name</label>
+                                    <input type="text" id="coldSenderCompany" placeholder="e.g. Tech Solutions Inc">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldSenderTitle">Your Job Title</label>
+                                    <input type="text" id="coldSenderTitle" placeholder="e.g. CEO, Marketing Director, Sales Manager">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldRecipient">Recipient Name</label>
+                                    <input type="text" id="coldRecipient" placeholder="e.g. John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldRecipientTitle">Recipient Job Title</label>
+                                    <input type="text" id="coldRecipientTitle" placeholder="e.g. VP of Sales, Marketing Director">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldCompany">Recipient Company Name</label>
+                                    <input type="text" id="coldCompany" placeholder="e.g. Tech Corp, StartupXYZ">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldPurpose">Purpose of Email</label>
+                                    <textarea id="coldPurpose" placeholder="e.g. Partnership opportunity, service offering, networking, collaboration proposal"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldBackground">Your Background & Credentials</label>
+                                    <textarea id="coldBackground" placeholder="e.g. CEO of Company X, 10 years experience in industry Y, worked with Fortune 500 companies"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldValueProp">Value Proposition</label>
+                                    <textarea id="coldValueProp" placeholder="e.g. How can you help them? What benefits do you offer? What problems do you solve?"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="coldCTA">Call to Action</label>
+                                    <textarea id="coldCTA" placeholder="e.g. Schedule a meeting, discuss partnership, explore collaboration"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Email Reply Template -->
+                            <div class="template-form" id="replyForm">
+                                <div class="form-group">
+                                    <label for="replySenderName">Your Full Name</label>
+                                    <input type="text" id="replySenderName" placeholder="e.g. John Smith">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replySenderEmail">Your Email Address</label>
+                                    <input type="email" id="replySenderEmail" placeholder="e.g. john.smith@company.com">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replySenderTitle">Your Job Title</label>
+                                    <input type="text" id="replySenderTitle" placeholder="e.g. Project Manager, Sales Director">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyRecipientName">Recipient Name</label>
+                                    <input type="text" id="replyRecipientName" placeholder="e.g. Sarah Johnson">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyContext">Original Email Context</label>
+                                    <textarea id="replyContext" placeholder="Briefly describe the original email or paste key excerpts that you're responding to"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyType">Response Type</label>
+                                    <select id="replyType">
+                                        <option value="positive">Positive Response</option>
+                                        <option value="negative">Decline/Negative Response</option>
+                                        <option value="neutral">Neutral/Information Request</option>
+                                        <option value="followup">Follow-up</option>
+                                        <option value="meeting">Meeting Request/Confirmation</option>
+                                        <option value="thankyou">Thank You Email</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyPoints">Key Points to Address</label>
+                                    <textarea id="replyPoints" placeholder="e.g. Answer specific questions, provide requested information, next steps, meeting details"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyDeadline">Any Deadlines or Dates (Optional)</label>
+                                    <input type="text" id="replyDeadline" placeholder="e.g. Meeting on Friday 3 PM, Deadline: Next Monday">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="replyAttachments">Attachments or Documents Mentioned (Optional)</label>
+                                    <input type="text" id="replyAttachments" placeholder="e.g. Contract, Proposal, Report">
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <button class="generate-btn" id="generateBtn">
+                            <i class="fas fa-magic"></i>
+                            Generate Email with AI
+                        </button>
+                    </div>
+
+                    <!-- Email Preview -->
+                    <div class="email-preview">
+                        <h2>
+                            <i class="fas fa-eye"></i>
+                            Email Preview
+                        </h2>
+                        
+                        <div class="preview-container">
+                            <div class="preview-placeholder" id="previewPlaceholder">
+                                <div class="preview-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <h3>Ready to Generate</h3>
+                                <p>Fill out the form on the left and click "Generate Email with AI" to create your professional email.</p>
+                                <div class="preview-features">
+                                    <div class="feature-item">
+                                        <i class="fas fa-robot"></i>
+                                        <span>AI-powered content generation</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-check"></i>
+                                        <span>Professional tone and structure</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-cog"></i>
+                                        <span>Customized for your specific needs</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="preview-content" id="previewContent" style="display: none;">
+                                <div class="email-header">
+                                    <div class="email-field">
+                                        <strong>Subject:</strong> <span id="emailSubject"></span>
+                                    </div>
+                                </div>
+                                <div class="email-body" id="emailBody"></div>
+                                <div class="preview-actions">
+                                    <button class="copy-btn" id="copyBtn">
+                                        <i class="fas fa-copy"></i>
+                                        Copy Email
+                                    </button>
+                                    <button class="regenerate-btn" id="regenerateBtn">
+                                        <i class="fas fa-redo"></i>
+                                        Regenerate
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="loading-state" id="loadingState" style="display: none;">
+                                <div class="spinner"></div>
+                                <p>Generating your professional email...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                <p>&copy; 2024 Saikat Biswas. All rights reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Error Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span id="toastMessage"></span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
