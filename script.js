@@ -17,9 +17,6 @@ const toastMessage = document.getElementById('toastMessage');  // Text inside no
 let currentTemplate = 'job';  // Which email type is selected (job, cold, or reply)
 let currentEmailData = null;  // Stores the generated email data
 
-// AI service configuration
-// const GEMINI_API_KEY = 'AIzaSyBYtU1qFhG4SouWnR7Ri3j5sPAROt9xHD8'; // Your Google AI key
-// const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 // DARK MODE FUNCTIONS
 // Set up dark mode when page loads
@@ -288,104 +285,7 @@ BODY:
     return prompts[templateType];
 }
 
-// // Call Gemini API directly from frontend
-// async function callGeminiAPI(prompt) {
-//     try {
-//         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 contents: [{
-//                     parts: [{
-//                         text: prompt
-//                     }]
-//                 }],
-//                 generationConfig: {
-//                     temperature: 0.7,
-//                     topK: 40,
-//                     topP: 0.95,
-//                     maxOutputTokens: 1024
-//                 }
-//             })
-//         });
-        
-//         if (!response.ok) {
-//             throw new Error(`HTTP error! status: ${response.status}`);
-//         }
-        
-//         const data = await response.json();
-        
-//         if (data.candidates && data.candidates.length > 0) {
-//             const content = data.candidates[0].content;
-//             if (content && content.parts && content.parts.length > 0) {
-//                 let responseText = content.parts[0].text.trim();
-                
-//                 // Parse the plain text format
-//                 let subject = '';
-//                 let body = '';
-                
-//                 // Look for SUBJECT: line
-//                 const subjectMatch = responseText.match(/SUBJECT:\s*(.+)/i);
-//                 if (subjectMatch) {
-//                     subject = subjectMatch[1].trim();
-//                 }
-                
-//                 // Look for BODY: section
-//                 const bodyMatch = responseText.match(/BODY:\s*([\s\S]*)/i);
-//                 if (bodyMatch) {
-//                     body = bodyMatch[1].trim();
-//                 }
-                
-//                 // Fallback: try to parse as JSON if the above fails
-//                 if (!subject || !body) {
-//                     try {
-//                         const parsed = JSON.parse(responseText);
-//                         if (parsed.subject && parsed.body) {
-//                             subject = parsed.subject;
-//                             body = parsed.body.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-//                         }
-//                     } catch (e) {
-//                         // Last resort: extract manually
-//                         const lines = responseText.split('\n');
-//                         let foundSubject = false;
-                        
-//                         for (let line of lines) {
-//                             if (line.toLowerCase().includes('subject:')) {
-//                                 subject = line.replace(/subject:\s*/i, '').trim();
-//                                 foundSubject = true;
-//                             } else if (!foundSubject && line.trim()) {
-//                                 subject = line.trim();
-//                                 foundSubject = true;
-//                             } else if (foundSubject && line.trim()) {
-//                                 if (body) {
-//                                     body += '\n' + line;
-//                                 } else {
-//                                     body = line;
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 }
-                
-//                 return { 
-//                     subject: subject || 'Professional Email', 
-//                     body: body || responseText 
-//                 };
-//             }
-//         }
-        
-//         throw new Error('No content generated');
-//     } catch (error) {
-//         console.error('Gemini API Error:', error);
-//         throw error;
-//     }
-// }
-
-
-
-
+// // Call Gemini API directly from backend
 async function callGeminiAPI(prompt) {
     try {
         const response = await fetch('/api/gemini', {
