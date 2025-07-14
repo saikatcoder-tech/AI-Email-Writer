@@ -18,8 +18,8 @@ let currentTemplate = 'job';  // Which email type is selected (job, cold, or rep
 let currentEmailData = null;  // Stores the generated email data
 
 // AI service configuration
-const GEMINI_API_KEY = 'AIzaSyBYtU1qFhG4SouWnR7Ri3j5sPAROt9xHD8'; // Your Google AI key
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+// const GEMINI_API_KEY = 'AIzaSyBYtU1qFhG4SouWnR7Ri3j5sPAROt9xHD8'; // Your Google AI key
+// const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
 // DARK MODE FUNCTIONS
 // Set up dark mode when page loads
@@ -288,100 +288,130 @@ BODY:
     return prompts[templateType];
 }
 
-// Call Gemini API directly from frontend
+// // Call Gemini API directly from frontend
+// async function callGeminiAPI(prompt) {
+//     try {
+//         const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify({
+//                 contents: [{
+//                     parts: [{
+//                         text: prompt
+//                     }]
+//                 }],
+//                 generationConfig: {
+//                     temperature: 0.7,
+//                     topK: 40,
+//                     topP: 0.95,
+//                     maxOutputTokens: 1024
+//                 }
+//             })
+//         });
+        
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+        
+//         const data = await response.json();
+        
+//         if (data.candidates && data.candidates.length > 0) {
+//             const content = data.candidates[0].content;
+//             if (content && content.parts && content.parts.length > 0) {
+//                 let responseText = content.parts[0].text.trim();
+                
+//                 // Parse the plain text format
+//                 let subject = '';
+//                 let body = '';
+                
+//                 // Look for SUBJECT: line
+//                 const subjectMatch = responseText.match(/SUBJECT:\s*(.+)/i);
+//                 if (subjectMatch) {
+//                     subject = subjectMatch[1].trim();
+//                 }
+                
+//                 // Look for BODY: section
+//                 const bodyMatch = responseText.match(/BODY:\s*([\s\S]*)/i);
+//                 if (bodyMatch) {
+//                     body = bodyMatch[1].trim();
+//                 }
+                
+//                 // Fallback: try to parse as JSON if the above fails
+//                 if (!subject || !body) {
+//                     try {
+//                         const parsed = JSON.parse(responseText);
+//                         if (parsed.subject && parsed.body) {
+//                             subject = parsed.subject;
+//                             body = parsed.body.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+//                         }
+//                     } catch (e) {
+//                         // Last resort: extract manually
+//                         const lines = responseText.split('\n');
+//                         let foundSubject = false;
+                        
+//                         for (let line of lines) {
+//                             if (line.toLowerCase().includes('subject:')) {
+//                                 subject = line.replace(/subject:\s*/i, '').trim();
+//                                 foundSubject = true;
+//                             } else if (!foundSubject && line.trim()) {
+//                                 subject = line.trim();
+//                                 foundSubject = true;
+//                             } else if (foundSubject && line.trim()) {
+//                                 if (body) {
+//                                     body += '\n' + line;
+//                                 } else {
+//                                     body = line;
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+                
+//                 return { 
+//                     subject: subject || 'Professional Email', 
+//                     body: body || responseText 
+//                 };
+//             }
+//         }
+        
+//         throw new Error('No content generated');
+//     } catch (error) {
+//         console.error('Gemini API Error:', error);
+//         throw error;
+//     }
+// }
+
+
+
+
 async function callGeminiAPI(prompt) {
     try {
-        const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+        const response = await fetch('/api/gemini', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: prompt
-                    }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 1024
-                }
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
         });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         const data = await response.json();
-        
-        if (data.candidates && data.candidates.length > 0) {
-            const content = data.candidates[0].content;
-            if (content && content.parts && content.parts.length > 0) {
-                let responseText = content.parts[0].text.trim();
-                
-                // Parse the plain text format
-                let subject = '';
-                let body = '';
-                
-                // Look for SUBJECT: line
-                const subjectMatch = responseText.match(/SUBJECT:\s*(.+)/i);
-                if (subjectMatch) {
-                    subject = subjectMatch[1].trim();
-                }
-                
-                // Look for BODY: section
-                const bodyMatch = responseText.match(/BODY:\s*([\s\S]*)/i);
-                if (bodyMatch) {
-                    body = bodyMatch[1].trim();
-                }
-                
-                // Fallback: try to parse as JSON if the above fails
-                if (!subject || !body) {
-                    try {
-                        const parsed = JSON.parse(responseText);
-                        if (parsed.subject && parsed.body) {
-                            subject = parsed.subject;
-                            body = parsed.body.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-                        }
-                    } catch (e) {
-                        // Last resort: extract manually
-                        const lines = responseText.split('\n');
-                        let foundSubject = false;
-                        
-                        for (let line of lines) {
-                            if (line.toLowerCase().includes('subject:')) {
-                                subject = line.replace(/subject:\s*/i, '').trim();
-                                foundSubject = true;
-                            } else if (!foundSubject && line.trim()) {
-                                subject = line.trim();
-                                foundSubject = true;
-                            } else if (foundSubject && line.trim()) {
-                                if (body) {
-                                    body += '\n' + line;
-                                } else {
-                                    body = line;
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                return { 
-                    subject: subject || 'Professional Email', 
-                    body: body || responseText 
-                };
-            }
-        }
-        
-        throw new Error('No content generated');
+
+        return {
+            subject: data.response?.match(/SUBJECT:\s*(.+)/i)?.[1] || "Generated Email",
+            body: data.response?.match(/BODY:\s*([\s\S]*)/i)?.[1]?.trim() || data.response
+        };
     } catch (error) {
-        console.error('Gemini API Error:', error);
+        console.error("Secure API Call Error:", error);
         throw error;
     }
 }
+
+
+
+
+
+
 
 // MAIN EMAIL GENERATION FUNCTION
 // This is the main function that creates the email using AI
